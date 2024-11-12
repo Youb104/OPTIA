@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche sur OptIA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="images/logobis.png" alt="Logo de Mon Site Web" class="logo">
+        <div class="user-profile-icon" onclick="ouvrirModal()">
+            <img src="images/2318271-icone-de-profil-utilisateur-vectoriel.jpg" alt="Profil" />
+        </div>
+    </header>
+
+    <h1 class="centered-title">Bienvenue sur OptIA</h1>
+    <p class="centered-text">Recherchez le modèle IA que vous souhaitez déployer, la tâche que vous souhaitez effectuer ou les ressources que vous possédez.</p>
+
+    <div class="search-container">
+        <form class="search-form" action="resultats.php" method="GET">
+            <select name="type_recherche" class="search-select" required>
+                <option value="modele">Modèle IA</option>
+                <option value="tache">Tâche</option>
+                <option value="ressources">Ressources</option>
+            </select>
+            <input type="text" name="valeur" placeholder="Entrez votre recherche..." class="search-input" required>
+            <button type="submit" class="search-button" name="Rechercher">Rechercher</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
