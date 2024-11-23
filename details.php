@@ -4,59 +4,48 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 try {
-    $conn = new PDO('mysql:host=localhost;dbname=optia_db', 'root', '');
+    $conn = new PDO('mysql:host=143.47.179.70;port=443;dbname=db1', 'user1', 'user1');
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Erreur de connexion : " . $e->getMessage());
 }
 
-if (isset($_GET['id']) && isset($_GET['type'])) {
-    $id = (int)$_GET['id'];
-    $type = $_GET['type'];
+// Vérification des paramètres
+if (isset($_GET['id'])) {
+    $id = (int)$_GET['id'];  // Récupérer l'ID de la ressource
 
-    if ($type === 'modele') {
-        $sql = "SELECT * FROM modeleia WHERE IdModeleIA = :id";
-    } elseif ($type === 'tache') {
-        $sql = "SELECT * FROM tache WHERE id_tache = :id"; // Remplacez par le bon nom de table et colonne
-    } elseif ($type === 'ressources') {
-        $sql = "SELECT * FROM `ressource utilisée` WHERE idRessource = :id";
- // Remplacez par le bon nom de table et colonne
-    } else {
-        die("Type de recherche invalide.");
-    }
+    // Requête SQL pour récupérer les détails de la ressource
+    $sql = "SELECT * FROM `ressourceutilisée` WHERE idRessource = :id";
 
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
     try {
         $stmt->execute();
-        $detail = $stmt->fetch(PDO::FETCH_ASSOC);
+        $resource = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($detail) {
-            echo "<h2>Détails</h2>";
-            echo "<p><strong>Nom :</strong> " . htmlspecialchars($detail['Nom']) . "</p>";
-            
-            if ($type === 'modele') {
-                echo "<p><strong>Architecture :</strong> " . htmlspecialchars($detail['Architecture']) . "</p>";
-            } elseif ($type === 'tache') {
-                echo "<p><strong>Description :</strong> " . htmlspecialchars($detail['details_tache']) . "</p>";
-            } elseif ($type === 'ressources') {
-                echo "<p><strong>CPU :</strong> " . htmlspecialchars($detail['CPU']) . "</p>";
-            }
+        if ($resource) {
+            echo "<h2>Détails de la Ressource</h2>";
+            echo "<p><strong>Nom :</strong> " . htmlspecialchars($resource['Nom']) . "</p>";
+            echo "<p><strong>CPU :</strong> " . htmlspecialchars($resource['CPU']) . "</p>";
+            echo "<p><strong>GPU :</strong> " . htmlspecialchars($resource['GPU']) . "</p>";
+            // Affichage de la mémoire
+            echo "<p><strong>Mémoire :</strong> " . htmlspecialchars($resource['Mémoire']) . "</p>";  // Afficher la mémoire
+            // Ajouter d'autres détails si nécessaires
         } else {
-            echo "<p>Aucun détail trouvé pour cet élément.</p>";
+            echo "<p>Aucune ressource trouvée avec cet ID.</p>";
         }
     } catch (PDOException $e) {
         die("Erreur lors de l'exécution de la requête : " . $e->getMessage());
     }
 } else {
-    echo "<p>Erreur : ID ou type non fourni.</p>";
+    echo "<p>Erreur : ID non spécifié.</p>";
 }
 ?>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Résultats de la recherche</title>
-    <link rel="stylesheet" href="style.css"> <!-- Assurez-vous que ce fichier existe et est lié -->
+    <title>Détails de la Ressource</title>
+    <link rel="stylesheet" href="style.css">
 </head>

@@ -5,6 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recherche sur OptIA</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Fonction pour charger dynamiquement les suggestions
+        function fetchSuggestions(type) {
+            const input = document.getElementById(type).value;
+
+            if (input.length > 1) { // Charger si l'utilisateur tape au moins 2 caractères
+                fetch(`suggestions.php?type=${type}&query=${input}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const datalist = document.getElementById(type + '_list');
+                        datalist.innerHTML = ''; // Réinitialiser les suggestions
+                        data.forEach(item => {
+                            const option = document.createElement('option');
+                            option.value = item;
+                            datalist.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Erreur lors du chargement des suggestions:', error));
+            }
+
+            // Si l'utilisateur entre un modèle, remplir automatiquement la case "Tâche"
+            if (type === 'modele' && input.length > 1) {
+                fetchTaskForModel(input);
+            }
+        }
+
+        // Fonction pour récupérer la tâche associée au modèle
+        function fetchTaskForModel(modelName) {
+            fetch(`get_task_for_model.php?model=${modelName}`)
+                .then(response => response.json())
+                .then(data => {
+                    const taskField = document.getElementById('tache');
+                    if (data && data.task) {
+                        // Remplir la case "Tâche" avec la tâche correspondante
+                        taskField.value = data.task;
+                    } else {
+                        // Laisser la case "Tâche" vide si aucune tâche n'est trouvée
+                        taskField.value = '';
+                    }
+                })
+                .catch(error => console.error('Erreur lors de la récupération de la tâche :', error));
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -14,21 +58,37 @@
         </div>
     </header>
 
-    <h1 class="centered-title">Bienvenue sur OptIA</h1>
-    <p class="centered-text">Recherchez le modèle IA que vous souhaitez déployer, la tâche que vous souhaitez effectuer ou les ressources que vous possédez.</p>
+    <h1 class="centered-title">Bienvenue sur OPTIA</h1>
+    <p class="centered-text">Remplissez un ou plusieurs champs pour rechercher par modèle IA, par ressource ou par tâche.</p>
 
     <div class="search-container">
-        <form class="search-form" action="resultats.php" method="GET">
-            <select name="type_recherche" class="search-select" required>
-                <option value="modele">Modèle IA</option>
-                <option value="tache">Tâche</option>
-                <option value="ressources">Ressources</option>
-            </select>
-            <input type="text" name="valeur" placeholder="Entrez votre recherche..." class="search-input" required>
-            <button type="submit" class="search-button" name="Rechercher">Rechercher</button>
+        <form id="multi-criteria-form" action="resultats.php" method="GET">
+            <div class="form-group">
+                <label for="modele">Modèle IA :</label>
+                <input type="text" name="modele" id="modele" list="modele_list" 
+                       placeholder="Entrez un modèle IA..." class="search-input"
+                       oninput="fetchSuggestions('modele')">
+                <datalist id="modele_list"></datalist>
+            </div>
+            
+            <div class="form-group">
+                <label for="ressource">Ressource :</label>
+                <input type="text" name="ressource" id="ressource" list="ressource_list" 
+                       placeholder="Entrez une ressource..." class="search-input"
+                       oninput="fetchSuggestions('ressource')">
+                <datalist id="ressource_list"></datalist>
+            </div>
+            
+            <div class="form-group">
+                <label for="tache">Tâche :</label>
+                <input type="text" name="tache" id="tache" list="tache_list" 
+                       placeholder="Entrez une tâche..." class="search-input"
+                       oninput="fetchSuggestions('tache')">
+                <datalist id="tache_list"></datalist>
+            </div>
+            
+            <button type="submit" class="search-button">Rechercher</button>
         </form>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>

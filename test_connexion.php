@@ -1,21 +1,21 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// Paramètres de connexion
+$host = '143.47.179.70';
+$port = '443';
+$dbname = 'db1';
+$username = 'user1';
+$password = 'user1';
 
 try {
-    // Remplacez les valeurs ci-dessous par les informations de connexion à votre base de données
-    $host = 'localhost';
-    $dbname = 'optia_db';
-    $username = 'root';
-    $password = '';
-
-    // Connexion à la base de données avec PDO
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    // Tentative de connexion à la base de données
+    $conn = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $username, $password);
+    
+    // Configuration du mode d'erreur pour afficher les exceptions
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    echo "Connexion réussie à la base de données !";
+    
+    echo "Connexion réussie à la base de données!";
 } catch (PDOException $e) {
+    // Affiche un message en cas d'erreur
     echo "Erreur de connexion : " . $e->getMessage();
 }
 ?>

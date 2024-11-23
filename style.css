@@ -1,72 +1,82 @@
-/* Styles globaux */
 body {
     background-color: black; /* Fond noir */
     color: white; /* Couleur du texte en blanc pour la visibilité */
     font-family: Arial, sans-serif; /* Choix de la police */
     margin: 0; /* Enlève les marges par défaut */
     padding: 20px; /* Ajoute un peu de rembourrage autour du contenu */
-}
-
-/* Vous pouvez également ajuster la couleur des liens si nécessaire */
-a {
-    color: #007BFF; /* Choisissez la couleur que vous souhaitez pour les liens */
-}
-
-a:hover {
-    color: #0056b3; /* Couleur des liens au survol */
-}
-
-/* Styles pour centrer le conteneur de recherche */
-.search-container {
     display: flex;
-    justify-content: center; /* Centre horizontalement le formulaire */
-    margin: 20px 0; /* Ajoute un espacement vertical */
-}
-
-/* Styles pour le titre centré */
-.centered-title {
-    text-align: center; /* Centre le texte horizontalement */
-    margin: 20px 0; /* Ajoute de l'espace autour du titre */
-}
-
-/* Styles pour le texte centré */
-.centered-text {
-    text-align: center; /* Centre le texte horizontalement */
-    margin: 10px 0; /* Ajoute de l'espace autour du texte */
-}
-
-/* Styles pour le formulaire de recherche */
-.search-form {
-    display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-.search-input {
-    padding: 5px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 5px; /* Espace entre le champ et le bouton */
+/* Titre centré */
+.centered-title {
+    text-align: center; /* Centre le texte horizontalement */
+    font-size: 2.5rem;
+    margin: 30px 0; /* Ajoute de l'espace autour du titre */
 }
 
+/* Conteneur de recherche */
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); /* Ombre autour du formulaire */
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Espacement entre les champs de recherche */
+.search-container label, .search-container input {
+    margin-bottom: 15px; /* Ajoute un espacement vertical entre les champs */
+}
+
+.search-input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #007BFF;
+    background-color: #444;
+}
+
+/* Bouton de recherche */
 .search-button {
-    padding: 6px 12px;
-    font-size: 14px;
-    background-color: #007BFF; /* Couleur bleue pour le bouton */
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #007BFF;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .search-button:hover {
-    background-color: #0056b3; /* Couleur plus foncée au survol */
+    background-color: #0056b3;
 }
 
-/* Styles pour le logo */
+/* Logo positionné en haut à gauche */
 .logo {
-    width: 180px; /* Changez la taille selon vos besoins */
-    height: auto; /* Garde les proportions de l'image */
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 180px; /* Taille du logo */
+    height: auto; /* Garder les proportions */
 }
 
 /* Icône de profil */
@@ -82,47 +92,3 @@ a:hover {
     height: 40px;
     border-radius: 50%;
 }
-
-/* Fenêtre modale */
-.modal {
-    display: none; /* Masquer par défaut */
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.8); /* Fond semi-transparent noir */
-    padding-top: 60px;
-}
-
-.modal-content {
-    background-color: #1e1e1e; /* Fond noir pour la modale */
-    color: #f0f0f0; /* Texte en blanc */
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    border-radius: 8px; /* Bord arrondi pour la modale */
-}
-
-.close {
-    color: #f0f0f0; /* Couleur claire pour le bouton de fermeture */
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #f0f0f0;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Styling des titres dans la modale */
-.modal-content h2, .modal-content h3 {
-    color: #f0f0f0; /* Titres en blanc */
-}
-
